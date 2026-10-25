@@ -1,13 +1,19 @@
-// const pronunciation = document.querySelector("#pronunciation-audio");
+const audio = document.querySelector("#pronunciation-audio");
 const form = document.querySelector("#search-form");
 // const button = document.querySelector("#btn");
 const wordSearch = document.querySelector("#word-search");
 const result = document.querySelector("#result");
-
+const audioBtn = document.querySelector("#audio-btn");
 
 
 async function fetchurl(word) {
-    try{
+       
+       result.textContent = "Searching...";
+    audio.pause();
+    audio.removeAttribute("src");
+    audioBtn.disabled =true;
+    
+       try{
     let url =`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
 
 
@@ -20,14 +26,26 @@ async function fetchurl(word) {
     const data= await response.json();
 
     displayResults(data)
+    
+    wordSearch.value = "";
 }catch(error){
-    console.error(error.message)
+    console.error(error.message);
+    result.textContent = error.message;
 }
 }
 //  fetchurl("hello")   
 
 function displayResults(data){
 const entry = data[0];
+const phonetic = entry.phonetics.find((item)=> item.audio);
+const audioUrl = phonetic?.audio;
+if (audioUrl) {
+    audio.src = audioUrl;
+    audioBtn.disabled = false;
+} else {
+    audio.removeAttribute("src");
+    audioBtn.disabled = true;
+}
 const word =entry.word;
 const partOfSpeech = entry.meanings[0].partOfSpeech
 const definition = entry.meanings[0].definitions[0].definition
@@ -53,7 +71,7 @@ typep.textContent = partOfSpeech;
 definitionp.textContent = definition;
 
 if(example){
-    result.textContent = examplep;
+    examplep.textContent = example;
 }
 
 result.appendChild(heading);
@@ -72,22 +90,37 @@ result.appendChild(examplep);
 
 }
 
+audioBtn.addEventListener("click",()=>{
+    if(audio.src){
+        audio.play().catch((error) =>{
+            console.error("Audio playback failed:", error.message);
+        })
+    }
+})
+
 
 form.addEventListener("submit",(e)=>{
     e.preventDefault();
    console.log("Form submitted!");
 
      const word = wordSearch.value.trim();
-     console.log("Word entered:",)
+     console.log("Word entered:", word)
     if(word === ""){
         alert("please enter a word!!");
         return;
     } 
+const pattern = /^[a-zA-Z\s'-]+$/;
+
+if(!pattern.test(word)){
+    alert("plaese enter a valid Word!!")
+    return;
+}
+
     fetchurl(word)
 
 });
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
+// form.addEventListener("submit", (e) => {
+//     e.preventDefault();
 
-    console.log("Form submitted without reloading!");
-});
+//     console.log("Form submitted without reloading!");
+// });
