@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA</title>
+    <!-- Tailwind Play CDN Connection -->
+    <script src="https://tailwindcss.com"></script>
+    
+    <!-- Premium literary Serif Font (Playfair Display) -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+
+        .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+    </style>
+</head>
+<body class="bg-[#F4F2E9] p-6 md:p-12 min-h-screen flex items-center justify-center">
+
+  <!-- Main Container -->
+  <div class="max-w-3xl w-full p-8 bg-[#FAF9F6] rounded-xl shadow-[0_4px_20px_rgba(44,53,43,0.08)] border border-[#E6E4DD]">
+    
+    <!-- Header -->
+    <div class="mb-8 text-center md:text-left border-b border-[#E6E4DD] pb-6">
+      <h2 class="font-serif text-3xl font-semibold text-[#1C2D24] tracking-wide">
+        ~ ENGLISH DICTIONARY ~
+      </h2>
+      <p class="font-serif italic text-xs tracking-wider text-[#606E66] uppercase mt-2">
+        Etymology · Definitions · Translations
+      </p>
+    </div>
+
+    <!-- Search Form -->
+    <form id="search-form" class="space-y-5 md:space-y-0 md:flex md:items-end md:gap-4">
+      
+      <!-- Word Input Field -->
+      <div  class="flex-grow">
+        <label for="word-search" class="block font-serif text-xs font-semibold tracking-wider text-[#1C2D24] uppercase mb-2">
+          Query Term
+        </label>
+        <div class="relative rounded-md">
+          <!-- Vintage Crest Style Icon (Faded Gold) -->
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <svg class="h-4 w-4 text-[#A89F86]" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          
+          <input 
+            type="text" 
+            id="word-search" 
+            name="word"
+            placeholder="Ex. Ephemeral, Grandeur..." 
+            class="font-serif block w-full pl-10 pr-4 py-3 bg-[#F4F2E9] border border-[#D9D5C7] rounded-md text-[#1C2D24] placeholder-[#A89F86]/70 focus:outline-none focus:ring-1 focus:ring-[#8C7E58] focus:border-[#8C7E58] focus:bg-[#FAF9F6] transition-all text-sm tracking-wide"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Pronunciation Audio Component (Nested Inline) -->
+      <div class="w-full md:w-auto flex flex-col">
+        <span class="hidden md:block font-serif text-xs font-semibold tracking-wider text-[#1C2D24] uppercase mb-2 opacity-0">Audio</span>
+        <button 
+        id="audio-btn"
+          type="button" 
+          title="Listen to pronunciation"
+          class="h-[46px] w-full md:w-[46px] flex items-center justify-center bg-[#F4F2E9] border border-[#D9D5C7] rounded-md text-[#A89F86] hover:text-[#8C7E58] hover:bg-[#EAE6DA] transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-[#8C7E58] cursor-pointer"
+        >
+          <!-- Elegant Speaker Icon -->
+          <svg class="h-5 w-5" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18.75V5.25L7.75 9.5H4.5v5h3.25L12 18.75z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Hidden Native Audio Engine -->
+      <!-- <audio id="pronunciation-audio" src="https://dictionaryapi.dev"></audio> -->
+      <audio id="pronunciation-audio"></audio>
+
+      <!-- Classification Dropdown -->
+      <div class="w-full md:w-48">
+        <label for="part-of-speech" class="block font-serif text-xs font-semibold tracking-wider text-[#1C2D24] uppercase mb-2">
+          Classification
+        </label>
+        <select 
+          id="part-of-speech" 
+          name="filter"
+          class="font-serif block w-full px-3 py-3 bg-[#F4F2E9] border border-[#D9D5C7] rounded-md text-[#1C2D24] focus:outline-none focus:ring-1 focus:ring-[#8C7E58] focus:border-[#8C7E58] focus:bg-[#FAF9F6] transition-all text-sm tracking-wide cursor-pointer appearance-none"
+        >
+          <option value="all">All Classifications</option>
+          <option value="noun">Noun</option>
+          <option value="verb">Verb</option>
+          <option value="adjective">Adjective</option>
+          <option value="adverb">Adverb</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="w-full md:w-auto">
+        <button 
+        id="btn"
+          type="submit" 
+          class="font-serif w-full md:w-auto px-8 py-3 bg-[#1C2D24] hover:bg-[#273F32] active:bg-[#15221B] text-[#FAF9F6] font-medium text-xs tracking-widest uppercase rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8C7E58]/50 transition-all cursor-pointer"
+        >
+          Consult
+        </button>
+      </div>
+      
+    </form>
+    <div id="result" class="mt-8 space-y-6"></div>
+  </div>
+
+  <!-- JavaScript to trigger the audio playback -->
+  <script>
+    function playPronunciation() {
+      const audio = document.getElementById('pronunciation-audio');
+      if (audio) {
+        <!-- audio.currentTime = 0;  -->
+        audio.play().catch(error => console.log("Audio target error: ", error));
+      }
+    }
+  </script>
+ <script  defer src="spa.js"></script>
+</body>
+</html>
